@@ -2,6 +2,10 @@ provider "aws" {
     # Expect AWS credentials from file or env
 }
 
+variable "subnet_prefix" {
+  description = "cidr block for the subnet"
+}
+
 resource "aws_vpc" "prod-vpc" {
     cidr_block = "10.0.0.0/16"
     tags = {
@@ -33,7 +37,7 @@ resource "aws_route_table" "prod-route-table" {
 
 resource "aws_subnet" "subnet-1" {
     vpc_id = aws_vpc.prod-vpc.id
-    cidr_block = "10.0.1.0/24"
+    cidr_block = var.subnet_prefix
     availability_zone = "ap-southeast-1a"
 
     tags = {
