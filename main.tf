@@ -99,6 +99,10 @@ resource "aws_eip" "one" {
     depends_on = [ aws_internet_gateway.gw ] # Sets an explicit dependency
 }
 
+output "server_public_ip" {
+    value = aws_eip.one.public_ip
+}
+
 resource "aws_instance" "web-server-instance" {
     ami               = "ami-0750a20e9959e44ff"
     instance_type     = "t2.micro"
@@ -120,4 +124,12 @@ resource "aws_instance" "web-server-instance" {
     tags = {
         Name = "webserver"
     }
+}
+
+output "server_private_ip" {
+    value = aws_instance.web-server-instance.private_ip
+}
+
+output "server_id" {
+    value = aws_instance.web-server-instance.id
 }
